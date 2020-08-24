@@ -1,5 +1,6 @@
 package com.usco.esteban.agenda_procesos.app.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -58,17 +60,14 @@ public class TipoProcesoController {
 	public String listar(Model model)
 	{
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		usuario = this.usuarioService.findByUsername(userDetail.getUsername());
+		List<Especialidad> especialidades = especialidadService.findAll();
 		
-		Especialidad especialidad = usuario.getJuzgado().getEspecialidad();
-		
-		model.addAttribute("titulo", "Listado de tipos de procesos");
+		model.addAttribute("especialidades", especialidades);
+		model.addAttribute("titulo", "Listado de tipos de Especialidades");
 		//model.addAttribute("tiposProceso", tipoProcesoService.findAll());
-		model.addAttribute("tiposProceso", tipoProcesoService.findByEspecialidad(especialidad));
+		//model.addAttribute("tiposProceso", tipoProcesoService.findByEspecialidad(especialidad));
 		
-		return "listarTipoProcesos";
+		return "tipoProcesoPorEspecialidad";
 	}
 	
 	/* como primera fase, se le muestra el formulario al usuario, y en este se le pasa
@@ -156,6 +155,19 @@ public class TipoProcesoController {
 		model.put("titulo","Terminos para el tipo de proceso: ".concat(tipoProceso.getNombre()));
 		
 		return "listarTerminos";
+	}
+	
+	@RequestMapping(value="/verTipoProcesoPorEspecialidad/{id}")
+	public String verTiposProcesoPorEspecialidad(@PathVariable(value="id") Long id, Model model)
+	{
+		Especialidad especialidad = especialidadService.findOne(id);
+		
+		List<TipoProceso> tiposProceso = tipoProcesoService.findByEspecialidad(especialidad);
+		
+		model.addAttribute("tiposProceso", tiposProceso);
+		model.addAttribute("titulo", "Tipos de proceso pertenecientes a la especialidad: " + especialidad.getNombre());
+		
+		return "listarTipoProcesos";
 	}
 
 }
