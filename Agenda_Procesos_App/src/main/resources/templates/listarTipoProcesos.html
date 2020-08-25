@@ -13,7 +13,8 @@
 					<a th:href="@{/formTipoProceso}" class="btn btn-success btn-xs">Crear
 						Tipo Proceso</a>
 				</h4>
-				<table class="table table-striped table-bordered">
+				<div th:if="${tiposProceso.isEmpty()}" class="alert alert-info my-4" th:text="'No hay tipos de proceso creados'"></div>
+				<table th:if="${!tiposProceso.isEmpty()}" class="table table-striped table-bordered">
 					<thead class="thead-dark">
 						<tr>
 							<!-- <th>Id</th>  -->

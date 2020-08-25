@@ -98,4 +98,11 @@ public class ProcesoUsuarioServiceImpl implements IProcesoUsuarioService {
 		return procesoUsuarioDao.findAllById(id, juzgado);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public ProcesoUsuario findOne(Long id) {
+		
+		return procesoUsuarioDao.findOne(id);
+	}
+
 }

@@ -56,6 +56,9 @@
 					<!-- <label class="col-sm-3 col-form-label" th:text="'Usuario: '"></label>
 					<input th:value="${proceso.proceso.usuario.nombre}" disabled="disabled" class="form-control col-sm-3"/> -->
 					
+					<label class="col-sm-3 col-form-label" th:text="'Asignado a: '"></label>
+					<input th:value="${nombreUsuario} + ' ' + ${apellidoUsuario}" disabled="disabled" class="form-control col-sm-3"/>
+					
 					<label class="col-sm-3 col-form-label" th:text="'Tipo Proceso: '"></label>
 					<input th:value="${proceso.tipoProceso.nombre}" disabled="disabled" class="form-control col-sm-3"/>
 					

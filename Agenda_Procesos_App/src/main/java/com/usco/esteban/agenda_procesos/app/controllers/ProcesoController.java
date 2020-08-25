@@ -135,6 +135,11 @@ public class ProcesoController {
 	{
 		Proceso proceso = procesoService.findOne(id);
 		
+		ProcesoUsuario procesoUsuario = procesoUsuarioService.findOne(id);
+		
+		String nombreUsuarioProceso = procesoUsuario.getUsuario().getNombre();
+		String apellidoUsuarioProceso = procesoUsuario.getUsuario().getApellido();	
+		
 		List<Alarma>alarmas = proceso.getAlarma();
 		boolean alarmaAdmision = false;
 		
@@ -174,6 +179,8 @@ public class ProcesoController {
 		model.put("tipoProceso", tipoProceso);
 		model.put("juzgado", nombreJuzgado);
 		model.put("titulo", "Detalle de proceso con el Radicado: " + radicado);
+		model.put("nombreUsuario", nombreUsuarioProceso);
+		model.put("apellidoUsuario", apellidoUsuarioProceso);
 		
 		return "detalleProceso";
 	}

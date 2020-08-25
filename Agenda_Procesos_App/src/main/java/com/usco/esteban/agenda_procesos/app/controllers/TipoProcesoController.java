@@ -45,10 +45,10 @@ public class TipoProcesoController {
 	@Autowired
 	private EspecialidadPropertyEditor especialidadEditor;
 	
-	@Autowired
+	/*@Autowired
 	private IUsuarioService usuarioService;
 	
-	private Usuario usuario;
+	private Usuario usuario;*/
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder)

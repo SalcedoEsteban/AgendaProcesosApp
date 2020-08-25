@@ -47,4 +47,7 @@ public interface IProcesoUsuarioDao extends PagingAndSortingRepository<ProcesoUs
 	/* query para ver todos los procesos activos para el super_Admin */
 	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.estado = true")
 	Page<ProcesoUsuario> findAllBySuperAdmin(Pageable pageable);
+	
+	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.id = ?1")
+	ProcesoUsuario findOne(Long id);
 }

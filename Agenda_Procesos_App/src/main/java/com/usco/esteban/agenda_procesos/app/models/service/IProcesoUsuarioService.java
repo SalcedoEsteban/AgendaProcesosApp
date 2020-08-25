@@ -36,4 +36,6 @@ public interface IProcesoUsuarioService {
 	
 	public Page<ProcesoUsuario> findAllBySuperAdmin(Pageable pageable);
 	
+	public ProcesoUsuario findOne(Long id);
+	
 }
