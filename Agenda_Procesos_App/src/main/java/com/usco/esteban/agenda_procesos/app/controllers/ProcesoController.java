@@ -858,6 +858,7 @@ public class ProcesoController {
 		boolean subsanaDemanda = false;
 		int dias = 0;
 		int diasSubsanarDemanda = 0;
+		boolean banderaPerdidaCompetencia = false;
 		boolean banderaSubsanaDemanda = false;
 		int procesosAdmitidos =0;
 		int procesosConSentencia = 0;
@@ -995,8 +996,8 @@ public class ProcesoController {
 					 * de 30 días antes del vencimiento de términos */
 					fechaFinal1 = Calendar.getInstance(timeZone, locale);
 					
-					int dia = 12;
-					int mes = 8;
+					int dia = 1;
+					int mes = 9;
 					int anio = 2020;
 					
 					fechaFinal1.set(anio, mes, dia);
@@ -1112,8 +1113,7 @@ public class ProcesoController {
 				proceso.setSentenciaBandera(true);
 				System.out.println("el radicado es "+ proceso.getRadicado());
 				
-				
-				
+				banderaPerdidaCompetencia = true;
 				String descripcion = "Vencimiento anio";
 				Alarma alarma1 = alarmaService.findByDescripcionAndProceso(descripcion, proceso);
 				
@@ -1143,10 +1143,15 @@ public class ProcesoController {
 				procesoService.save(proceso);
 				//model.addAttribute("bandera", bandera);
 			}
-			
+			if(dias1 == 0 && banderaPerdidaCompetencia == true)
+			{
+				proceso.setEstadoActual("Perdida de competencia 121");
+				proceso.setEstado(false);
+				procesoService.save(proceso);
+			}
 			//
 			dias1 = 0;
-			
+			banderaPerdidaCompetencia = false;
 			/*============== fin de codigo de alarma de 30 dias para el vencimiento de terminos ======*/
 			
 			/*========= CODIGO PARA LOS DIAS DE SUBSANAR DEMANDA ============= */
@@ -1321,7 +1326,7 @@ public class ProcesoController {
 	public void guardarAlarma121(Proceso proceso)
 	{
 		Alarma alarma = new Alarma();
-		String descripcion = "Vencimiento anio";
+		String descripcion = "Vencimiento año";
 		alarma.setProceso(proceso);
 		alarma.setDescripcion(descripcion);
 		alarmaService.save(alarma);	

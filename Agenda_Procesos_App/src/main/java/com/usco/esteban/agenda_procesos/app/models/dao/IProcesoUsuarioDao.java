@@ -15,7 +15,9 @@ import com.usco.esteban.agenda_procesos.app.models.entity.ProcesoUsuario;
 public interface IProcesoUsuarioDao extends PagingAndSortingRepository<ProcesoUsuario, Long>
 {
 
-	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.estado = true and pu.proceso.juzgado=?2")
+	/*metodo que devuelve todos los procesos activos de un usuario y del juzgado al que pertenece ese usuario y los ordena de mayor a menor por medio del id del proceso
+	 * para luego aplicar la paginacion en la vista*/
+	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.estado = true and pu.proceso.juzgado=?2 order by pu.proceso.id asc")
 	Page<ProcesoUsuario> findAllById(Long id, Pageable pageable, Juzgado juzgado);
 	
 	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.estado = true and pu.proceso.juzgado=?2")
@@ -24,30 +26,34 @@ public interface IProcesoUsuarioDao extends PagingAndSortingRepository<ProcesoUs
 	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.estado = true and p.juzgado=?1")
 	List<ProcesoUsuario> findAll(Juzgado juzgado);
 	
-	
-	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.juzgado=?2")
+	/*metodo para ver todos los procesos (activos y no activos) de un usuario y del juzgado al que pertence a ese usuario y que implementa
+	 * la paginacion */
+	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.juzgado=?2 order by pu.proceso.id asc")
 	Page<ProcesoUsuario> findAllBy(Long id, Pageable pageable, Juzgado juzgado);
 	
+	/* metodo que realiza la busqueda de un proceso mediante el radicado y el id de un usuario para luego implementar la paginacion*/
 	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.estado = true and pu.proceso.radicado like %?2%")
 	public Page<ProcesoUsuario> findByIdAndRadicado(Long id, Pageable pageable, String radicado);
 	//@Query("select pu from ProcesoUsuario pu where pu.usuario = ?1")
 	//Page<ProcesoUsuario> findAllByUsuario(Usuario usuario, Pageable pageable);
 	
-	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.estado = true and pu.proceso.juzgado=?2 and pu.proceso.prioritario=true")
+	/*metodo que realiza la busqueda de un proceso mediante el id de un usuario, juzgado, estado activo y prioritario y que implementa la paginacion */
+	@Query("select pu from ProcesoUsuario pu join pu.usuario u where u.id=?1 and pu.proceso.estado = true and pu.proceso.juzgado=?2 and pu.proceso.prioritario=true order by pu.proceso.id asc")
 	Page<ProcesoUsuario> findByUsuarioAndEstadoAndJuzgadoAndPrioritario(Long id, Pageable pageable, Juzgado juzgado);
 	
-	/* query para ver todos los procesos activos de un juzgado para el admin*/
-	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.juzgado=?1")
+	/* query para ver todos los procesos activos y no activos de un juzgado para el admin*/
+	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.juzgado=?1 order by p.id asc")
 	Page<ProcesoUsuario> findAllByJuzgado(Juzgado juzgado, Pageable pageable);
 	
-	/* query para hacer ver los todos los procesos prioritarios y activos de un juzgado*/
-	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.estado = true and p.juzgado=?1 and p.prioritario = true")
+	/* query para ver los todos los procesos prioritarios y activos de un juzgado y que implementa la paginación */
+	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.estado = true and p.juzgado=?1 and p.prioritario = true order by p.id asc")
 	Page<ProcesoUsuario> findAllByPrioritario(Juzgado juzgado, Pageable pageable);
 	
 	/* query para ver todos los procesos activos para el super_Admin */
-	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.estado = true")
+	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.estado = true order by p.id asc")
 	Page<ProcesoUsuario> findAllBySuperAdmin(Pageable pageable);
 	
+	/*query que retorna un solo poceso por medio del id de un usuario */
 	@Query("select pu from ProcesoUsuario pu join pu.proceso p where p.id = ?1")
 	ProcesoUsuario findOne(Long id);
 }
