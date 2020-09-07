@@ -94,7 +94,16 @@ public class UsuarioController {
 		
 		Page<Usuario> usuarios = null; 
 		
-		for (Rol rol : roles) {
+		if(roles.size() == 2)
+		{
+			nombre = "ROLE_ADMIN";
+		}
+		else if(roles.size() == 3)
+		{
+			nombre = "ROLE_SUPER_ADMIN";
+		}
+		
+		/*for (Rol rol : roles) {
 			
 			System.out.println(rol.getRol());
 			
@@ -111,7 +120,7 @@ public class UsuarioController {
 				nombre = rol.getRol();
 				break;
 			}
-		}
+		}*/
 		
 		System.out.println("el rol es: " + nombre);
 		
@@ -141,7 +150,7 @@ public class UsuarioController {
 	@RequestMapping(value = "/listarUsuarios")
 	public String listarUsuarios(@RequestParam(name = "page", defaultValue = "0") int page, Map<String, Object> model) {
 		
-		Pageable pageRequest = PageRequest.of(page, 1);
+		Pageable pageRequest = PageRequest.of(page, 5);
 		
 		/*Se obtiene el usuario logeado*/
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -156,27 +165,36 @@ public class UsuarioController {
 		
 		System.out.println("la lista roles es vacia: " + roles.isEmpty());
 		
-		
-		
 		String nombre = null;
 		Page<Usuario> usuarios = null; 
 		
-		for (Rol rol : roles) {
+		if(roles.size() == 2)
+		{
+			nombre = "ROLE_ADMIN";
+		}
+		else if(roles.size() == 3)
+		{
+			nombre = "ROLE_SUPER_ADMIN";
+		}
+		/*for (Rol rol : roles)
+		{
 			
 			System.out.println(rol.getRol());
 			
 			//nombre = rol.getRol();
 			
-			if(rol.getRol().contentEquals("ROLE_SUPER_ADMIN"))
+			if(rol.getRol().contentEquals("ROLE_ADMIN"))
 			{
 				System.out.println("rol desde el if por SUPER_ADMIN: " + rol.getRol());
 				nombre = rol.getRol();
-			}else if(rol.getRol().contentEquals("ROLE_ADMIN"))
+				break;
+			}else if(rol.getRol().contentEquals("ROLE_SUPER_ADMIN"))
 			{
 				System.out.println("rol desde el if por ROLE_ADMIN: " + rol.getRol());
 				nombre = rol.getRol();
+				break;
 			}
-		}
+		}*/
 		
 		System.out.println("el rol es: " + nombre);
 		
