@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name ="especialidad")
@@ -24,6 +26,7 @@ public class Especialidad implements Serializable{
 	private Long id;
 	
 	@Column(name="esp_nombre")
+	@NotBlank
 	private String nombre;
 	
 	@OneToMany(mappedBy = "especialidad", fetch = FetchType.LAZY)

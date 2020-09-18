@@ -16,31 +16,37 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Email</label>
 						<div class="col-sm-5">
-							<input type="email" th:field="*{username}" class="form-control"/>
+							<input type="email" placeholder="ejemplo@correo.com" th:field="*{username}" class="form-control"/>
+							<div th:if="${#fields.hasErrors('username')}" class="alert alert-danger" th:errors="*{username}"></div>
 						</div>
+						
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2">Contraseña</label>
 						<div class="col-sm-5">
 							<input type="password" th:field="*{password}" class="form-control"/>
+							<div th:if="${#fields.hasErrors('password')}" class="alert alert-danger" th:errors="*{password}"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2">Nombre</label>
 						<div class="col-sm-5">
 							<input type="text" th:field="*{nombre}" class="form-control"/>
+							<div th:if="${#fields.hasErrors('nombre')}" class="alert alert-danger" th:errors="*{nombre}"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2">Apellido</label>
 						<div class="col-sm-5">
 							<input type="text" th:field="*{apellido}" class="form-control">
+							<div th:if="${#fields.hasErrors('apellido')}" class="alert alert-danger" th:errors="*{apellido}"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-form-label col-sm-2">Cargo</label>
 						<div class="col-sm-5">
 							<input type="text" th:field="*{cargo}" class="form-control">
+							<div th:if="${#fields.hasErrors('cargo')}" class="alert alert-danger" th:errors="*{cargo}"></div>
 						</div>
 					</div>
 					<div sec:authorize="hasRole('ROLE_SUPER_ADMIN')" class="form-group row">

@@ -3,9 +3,12 @@ package com.usco.esteban.agenda_procesos.app.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -35,8 +38,15 @@ public class EspecialidadController {
 	}
 	
 	@RequestMapping(value="/guardar")
-	public String guardar(Model model, Especialidad especialidad, RedirectAttributes flash, SessionStatus status)
+	public String guardar(@Valid Especialidad especialidad, BindingResult result, RedirectAttributes flash, SessionStatus status, Model model)
 	{
+		if(result.hasErrors())
+		{
+			model.addAttribute("titulo", "Crear Especialidad");
+			
+			return "especialidad/formEspecialidad";
+		}
+		
 		String mensajeFlash = (especialidad.getId() != null) ? "La Especialidad fue editada con éxito" : "La Especialidad fue guardada con éxito";
 		
 		especialidadService.save(especialidad);

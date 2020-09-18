@@ -3,12 +3,15 @@ package com.usco.esteban.agenda_procesos.app.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -117,8 +120,16 @@ public class TipoProcesoController {
 	@RequestMapping(value ="/guardarTipoProceso",method = RequestMethod.POST)
 	/* aqui se le pasa como parametro el objeto con los datos guardados desde el 
 	 * formulario */
-	public String guardar(TipoProceso tipoProceso, SessionStatus status, RedirectAttributes flash)
+	public String guardar(@Valid TipoProceso tipoProceso, BindingResult result, SessionStatus status, RedirectAttributes flash, Model model)
 	{
+		
+		if(result.hasErrors())
+		{
+			model.addAttribute("titulo", "Formulario de Tipo Proceso");
+			model.addAttribute("especialidades", especialidadService.findAll());
+			
+			return "formTipoProceso";
+		}
 		
 		String mensajeFlash = (tipoProceso.getId() != null) ? "Tipo Proceso editado con exito" : "Tipo Proceso creado con exito";
 		

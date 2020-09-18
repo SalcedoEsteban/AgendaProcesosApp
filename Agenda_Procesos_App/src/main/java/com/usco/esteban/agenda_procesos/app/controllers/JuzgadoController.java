@@ -3,9 +3,12 @@ package com.usco.esteban.agenda_procesos.app.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,8 +89,15 @@ public class JuzgadoController {
 	}
 	
 	@RequestMapping(value="/guardarJuzgado")
-	public String guardarJuzgado(Model model, Juzgado juzgado, RedirectAttributes flash, SessionStatus status)
+	public String guardarJuzgado(@Valid Juzgado juzgado, BindingResult result, RedirectAttributes flash, SessionStatus status, Model model)
 	{
+		if(result.hasErrors())
+		{
+			model.addAttribute("titulo", "Formulario de Juzgado");
+			model.addAttribute("especialidades", especialidadService.findAll());
+			
+			return "juzgado/formJuzgado";
+		}
 		
 		String mensajeFlash = (juzgado.getId() != null) ? "Juzgado editado con exito" : "Juzgado creado con exito";
 		

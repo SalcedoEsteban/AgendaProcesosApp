@@ -32,9 +32,6 @@
 								<!-- <option value="">=========elegir especialidad==========</option> -->
 								<option th:each="especialidad: ${especialidades}" th:value="${especialidad.id}" th:text="${especialidad.nombre}"></option>
 							</select>
-							<small
-								class="form-text text-danger"
-								th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></small>
 						</div>
 					</div>
 					<div class="form-group">

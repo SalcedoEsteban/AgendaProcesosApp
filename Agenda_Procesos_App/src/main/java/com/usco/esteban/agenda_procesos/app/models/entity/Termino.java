@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -29,9 +32,12 @@ public class Termino implements Serializable {
 	private Long id;
 	
 	@Column(name ="ter_nombre")
+	@NotBlank
 	private String nombre;
 	
 	@Column(name ="ter_numero_dias")
+	@Min(1)
+	@Max(450)
 	private int numeroDias;
 	
 	@Column(name = "ter_basico")

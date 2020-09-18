@@ -18,6 +18,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,12 +41,14 @@ public class DetalleTermino implements Serializable {
 	
 	@Column(name="detTer_fecha_incial")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull
 	private Calendar fechaInicial;
 	
 	@Column(name ="detTer_fecha_final")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull
 	private Calendar fechaFinal;
 	
 	@Column(name="det_ter_termino")

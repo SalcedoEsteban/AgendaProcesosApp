@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -30,7 +31,7 @@ public class TipoProceso implements Serializable{
 	private Long id;
 	
 	@Column(name = "tipPro_nombre")
-	@NotEmpty
+	@NotBlank
 	private String nombre;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

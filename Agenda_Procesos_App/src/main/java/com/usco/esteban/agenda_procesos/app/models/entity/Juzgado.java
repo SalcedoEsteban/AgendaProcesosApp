@@ -13,7 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
+
 
 
 
@@ -29,7 +30,7 @@ public class Juzgado implements Serializable
 	private Long id;
 	
 	@Column(name ="juz_nombre")
-	@NotEmpty
+	@NotBlank
 	private String nombre;
 	
 	@OneToMany(mappedBy = "juzgado", fetch = FetchType.LAZY)

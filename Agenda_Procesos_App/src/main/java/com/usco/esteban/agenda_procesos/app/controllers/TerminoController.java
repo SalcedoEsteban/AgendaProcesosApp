@@ -3,10 +3,13 @@ package com.usco.esteban.agenda_procesos.app.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -125,7 +128,7 @@ public class TerminoController
 	}*/
 	
 	@PostMapping(value ="/guardarTermino")
-	public String guardar(Termino termino, SessionStatus status)
+	public String guardar(@Valid Termino termino, BindingResult result, SessionStatus status, Model model)
 	{
 		/*Long esp = Long.parseLong(termino.getEsp());
 		Especialidad especialidad = especialidadService.findOne(esp);
@@ -134,7 +137,14 @@ public class TerminoController
 		Long tipoPro = Long.parseLong(termino.getTipPro());
 		TipoProceso tipoProceso = tipoProcesoService.findOne(tipoPro);
 		termino.setTipoProceso(tipoProceso);*/
-		
+		if(result.hasErrors())
+		{
+			
+			model.addAttribute("titulo", "Formulario de terminos");
+			model.addAttribute("especialidades", especialidadService.findAll());
+			model.addAttribute("tiposProceso", tipoProcesoService.findAll());
+			return "formTermino";
+		}
 		
 		terminoService.save(termino);
 		

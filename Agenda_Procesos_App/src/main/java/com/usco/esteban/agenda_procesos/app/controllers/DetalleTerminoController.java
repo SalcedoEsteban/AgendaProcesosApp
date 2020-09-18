@@ -1,6 +1,9 @@
 package com.usco.esteban.agenda_procesos.app.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,6 +87,9 @@ public class DetalleTerminoController {
 		binder.registerCustomEditor(Termino.class, "termino", terminoEditor);
 	}
 	
+	Proceso proceso = null;
+	List<Termino> terminos = new ArrayList<>();
+	
 	@RequestMapping(value="/crearDetalleTermino/{procesoId}")
 	public String crear(@PathVariable(value="procesoId") Long procesoId, Model model, RedirectAttributes flash)
 	{
@@ -91,7 +98,7 @@ public class DetalleTerminoController {
 		usuario = this.usuarioService.findByUsername(userDetail.getUsername());
 		
 		Especialidad especialidad = usuario.getJuzgado().getEspecialidad();
-		Proceso proceso = null;
+		
 		boolean basico = true;
 		
 		if(procesoId > 0)
@@ -114,7 +121,7 @@ public class DetalleTerminoController {
 		
 		TipoProceso tipoProceso = proceso.getTipoProceso();
 		
-		List<Termino> terminos = terminoService.findByEspecialidadAndTipoProcesoAndBasico(especialidad, tipoProceso, basico);
+		terminos = terminoService.findByEspecialidadAndTipoProcesoAndBasico(especialidad, tipoProceso, basico);
 		
 		DetalleTermino detalleTermino = new DetalleTermino();
 		
@@ -129,8 +136,16 @@ public class DetalleTerminoController {
 	}
 	
 	@RequestMapping(value ="/guardarDetalleTermino", method = RequestMethod.POST)
-	public String guardar(@RequestParam(name = "page", defaultValue = "0") int page, DetalleTermino detalleTermino, Model model, SessionStatus status, RedirectAttributes flash)
+	public String guardar(@RequestParam(name = "page", defaultValue = "0") int page, @Valid DetalleTermino detalleTermino, BindingResult result, Model model, SessionStatus status, RedirectAttributes flash)
 	{
+		
+		if(result.hasErrors())
+		{
+			model.addAttribute("titulo", "Formulario Detalle Termino para el proceso numero: " + proceso.getId() + " Con radicado: " + proceso.getRadicado());
+			model.addAttribute("terminos", terminos);
+			
+			return "detalleTermino/formDetalleTermino";
+		}
 		
 		/*Long idTermino = Long.parseLong(detalleTermino.getTer());
 		Termino termino = terminoService.findOne(idTermino);*/
@@ -168,8 +183,14 @@ public class DetalleTerminoController {
 		model.addAttribute("procesos", procesosUsuario);
 		model.addAttribute("page", pageRender);
 		
+		this.proceso = null;
+		this.terminos = null;
+		
+		
 		return "redirect:/listarProcesos";
 	}
+	
+
 	
 	@RequestMapping(value ="/editarDetalleTermino/{id}")
 	public String editarDetalleTermino(@PathVariable(value ="id") Long id, Model model, RedirectAttributes flash)

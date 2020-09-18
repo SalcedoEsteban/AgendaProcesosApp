@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -605,8 +608,16 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value = "/guardarUsuario")
-	public String guardarUsuario(Model model, Usuario usuario, SessionStatus status, RedirectAttributes flash) {
-
+	public String guardarUsuario(@Valid Usuario usuario, BindingResult result, SessionStatus status, RedirectAttributes flash, Model model)
+	{
+		
+		if(result.hasErrors())
+		{
+			model.addAttribute("juzgados", juzgadoService.findAll());
+			model.addAttribute("titulo", "Crear Usuario");
+			return "usuario/formUsuario";
+		}
+		
 		String ps = usuario.getPassword();
 		String bycryptPassword = passwordEncoder.encode(ps);
 		usuario.setPassword(bycryptPassword);

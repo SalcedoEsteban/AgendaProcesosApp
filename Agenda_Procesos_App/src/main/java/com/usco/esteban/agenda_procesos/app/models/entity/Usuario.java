@@ -22,7 +22,10 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,21 +38,28 @@ public class Usuario implements Serializable {
 	private Long id;
 
 	@Column(name = "usu_username", unique = true, length = 40)
+	@NotBlank
+	@Email
 	private String username;
 
 	@Column(name = "usu_password", length = 60)
+	@NotBlank
+	@Size(min = 8)
 	private String password;
 
 	@Column(name = "usu_enabled")
 	private boolean enabled;
 
 	@Column(name = "usu_nombre")
+	@NotBlank
 	private String nombre;
 
 	@Column(name = "usu_apellido")
+	@NotBlank
 	private String apellido;
 	
 	@Column(name="usu_cargo")
+	@NotBlank
 	private String cargo;
 
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -85,7 +95,7 @@ public class Usuario implements Serializable {
 	@PrePersist
 	public void prePersistEnabled() {
 		
-		/*se establece en true el estado del usuario para poder inciar sesion*/
+		/*se establece en true el estado del usuario para poder iniciar sesion*/
 		this.enabled = true;
 		Calendar calendar = Calendar.getInstance();
 		//calendar.set(2019, 4, 12);
