@@ -61,8 +61,8 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label">Fecha Reparto</label>
 						<div class="col-sm-6">
-							<input type="text" th:field="*{fechaReparto}"
-								class="form-control" id="datepicker" th:errorclass="'form-control alert-danger'"
+							<input type="date" th:field="*{fechaReparto}"
+								class="form-control" id="fechaReparto" th:errorclass="'form-control alert-danger'"
 								autocomplete="off" />
 							<small class="form-text text-danger"
 								th:if="${#fields.hasErrors('fechaReparto')}"

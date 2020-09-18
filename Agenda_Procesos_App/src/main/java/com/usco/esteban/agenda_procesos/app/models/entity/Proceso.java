@@ -59,7 +59,7 @@ public class Proceso implements Serializable {
 	@Column(name = "pro_fecha_reparto")
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Calendar fechaReparto;
 
 	@Column(name = "pro_ultima_actuacion")
