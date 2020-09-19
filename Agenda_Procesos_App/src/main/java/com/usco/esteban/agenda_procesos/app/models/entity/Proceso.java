@@ -22,6 +22,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -50,7 +51,7 @@ public class Proceso implements Serializable {
 	private String radicado;
 
 	@Column(name = "pro_demandante")
-	@NotEmpty
+	@NotBlank
 	private String demandante;
 
 	@Column(name = "pro_demandado")
